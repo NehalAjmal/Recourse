@@ -46,6 +46,119 @@ Resources:
           Projection:
             ProjectionType: ALL
 
+  # ---------- Authorization (Cedar) ----------
+
+  PolicyStore:
+    Type: AWS::VerifiedPermissions::PolicyStore
+    Properties:
+      ValidationSettings:
+        Mode: STRICT
+      Schema:
+        CedarJson: |
+          {
+            "Recourse": {
+              "entityTypes": {
+                "Mandate": {
+                  "shape": {
+                    "type": "Record",
+                    "attributes": {
+                      "spend_cap_paise": { "type": "Long" },
+                      "merchant_slug": { "type": "String" },
+                      "status": { "type": "String" },
+                      "valid_from": { "type": "Long" },
+                      "valid_until": { "type": "Long" }
+                    }
+                  }
+                },
+                "Transaction": {
+                  "shape": {
+                    "type": "Record",
+                    "attributes": {
+                      "amount_paise": { "type": "Long" },
+                      "merchant_slug": { "type": "String" },
+                      "txn_ts": { "type": "Long" }
+                    }
+                  }
+                }
+              },
+              "actions": {
+                "purchase": {
+                  "appliesTo": {
+                    "principalTypes": ["Mandate"],
+                    "resourceTypes": ["Transaction"]
+                  }
+                }
+              }
+            }
+          }
+
+  PermitBaselinePolicy:
+    Type: AWS::VerifiedPermissions::Policy
+    Properties:
+      PolicyStoreId: !Ref PolicyStore
+      Definition:
+        Static:
+          Description: "baseline permit"
+          Statement: |
+            permit (
+                principal,
+                action == Recourse::Action::"purchase",
+                resource
+            );
+
+  ForbidOverCapPolicy:
+    Type: AWS::VerifiedPermissions::Policy
+    Properties:
+      PolicyStoreId: !Ref PolicyStore
+      Definition:
+        Static:
+          Description: "amount_within_cap"
+          Statement: |
+            forbid (
+                principal,
+                action == Recourse::Action::"purchase",
+                resource
+            )
+            when {
+                resource.amount_paise > principal.spend_cap_paise
+            };
+
+  ForbidMerchantMismatchPolicy:
+    Type: AWS::VerifiedPermissions::Policy
+    Properties:
+      PolicyStoreId: !Ref PolicyStore
+      Definition:
+        Static:
+          Description: "merchant_matches"
+          Statement: |
+            forbid (
+                principal,
+                action == Recourse::Action::"purchase",
+                resource
+            )
+            when {
+                resource.merchant_slug != principal.merchant_slug
+            };
+
+  ForbidMandateInactivePolicy:
+    Type: AWS::VerifiedPermissions::Policy
+    Properties:
+      PolicyStoreId: !Ref PolicyStore
+      Definition:
+        Static:
+          Description: "mandate_active"
+          Statement: |
+            forbid (
+                principal,
+                action == Recourse::Action::"purchase",
+                resource
+            )
+            when {
+                principal.status != "active" ||
+                resource.txn_ts < principal.valid_from ||
+                resource.txn_ts > principal.valid_until
+            };
+
   # ---------- API ----------
 
   RecourseApi:
@@ -101,9 +214,14 @@ Resources:
             TableName: !Ref RecourseTable
         - LambdaInvokePolicy:
             FunctionName: !Ref NarrateFunction
+        - Statement:
+            - Effect: Allow
+              Action: verifiedpermissions:IsAuthorized
+              Resource: !GetAtt PolicyStore.Arn
       Environment:
         Variables:
           NARRATE_FUNCTION_NAME: !Ref NarrateFunction
+          POLICY_STORE_ID: !Ref PolicyStore
 
   NarrateFunction:
     Type: AWS::Serverless::Function
