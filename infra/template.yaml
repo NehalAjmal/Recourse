@@ -1,0 +1,160 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Recourse -- dispute evidence chain for agent-initiated transactions.
+  Phase 1 skeleton: DynamoDB, four Lambda stubs, HTTP API. No Verified Permissions yet.
+
+Globals:
+  Function:
+    Runtime: python3.12
+    Timeout: 30
+    MemorySize: 256
+    Environment:
+      Variables:
+        TABLE_NAME: !Ref RecourseTable
+
+Resources:
+
+  # ---------- Storage ----------
+
+  RecourseTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Recourse
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: PK
+          AttributeType: S
+        - AttributeName: SK
+          AttributeType: S
+        - AttributeName: GSI1PK
+          AttributeType: S
+        - AttributeName: GSI1SK
+          AttributeType: S
+      KeySchema:
+        - AttributeName: PK
+          KeyType: HASH
+        - AttributeName: SK
+          KeyType: RANGE
+      GlobalSecondaryIndexes:
+        - IndexName: GSI1
+          KeySchema:
+            - AttributeName: GSI1PK
+              KeyType: HASH
+            - AttributeName: GSI1SK
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+
+  # ---------- API ----------
+
+  RecourseApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: prod
+      CorsConfiguration:
+        AllowOrigins:
+          - "http://localhost:5173"
+          - "*"
+        AllowMethods:
+          - GET
+          - POST
+          - OPTIONS
+        AllowHeaders:
+          - Content-Type
+
+  # ---------- Functions ----------
+  # Each function includes a copy of shared/ synced by scripts/sync_shared.sh
+  # before sam build. Run that script first.
+
+  IngestFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: recourse-ingest
+      Handler: handler.handler
+      CodeUri: ../services/ingest/
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref RecourseTable
+        - LambdaInvokePolicy:
+            FunctionName: !Ref EvaluateFunction
+      Environment:
+        Variables:
+          EVALUATE_FUNCTION_NAME: !Ref EvaluateFunction
+      Events:
+        PostDisputes:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref RecourseApi
+            Path: /disputes
+            Method: POST
+
+  EvaluateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: recourse-evaluate
+      Handler: handler.handler
+      CodeUri: ../services/evaluate/
+      Timeout: 60
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref RecourseTable
+        - LambdaInvokePolicy:
+            FunctionName: !Ref NarrateFunction
+      Environment:
+        Variables:
+          NARRATE_FUNCTION_NAME: !Ref NarrateFunction
+
+  NarrateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: recourse-narrate
+      Handler: handler.handler
+      CodeUri: ../services/narrate/
+      Timeout: 60
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref RecourseTable
+
+  ApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: recourse-api
+      Handler: handler.handler
+      CodeUri: ../services/api/
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref RecourseTable
+      Events:
+        GetDisputes:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref RecourseApi
+            Path: /disputes
+            Method: GET
+        GetDispute:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref RecourseApi
+            Path: /disputes/{id}
+            Method: GET
+        GetAudit:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref RecourseApi
+            Path: /disputes/{id}/audit
+            Method: GET
+        GetMetrics:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref RecourseApi
+            Path: /metrics
+            Method: GET
+
+Outputs:
+  ApiUrl:
+    Description: HTTP API endpoint URL
+    Value: !Sub "https://${RecourseApi}.execute-api.${AWS::Region}.amazonaws.com/prod"
+  TableName:
+    Description: DynamoDB table name
+    Value: !Ref RecourseTable
