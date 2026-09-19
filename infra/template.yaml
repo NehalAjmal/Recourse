@@ -239,10 +239,10 @@ Resources:
         - Statement:
             - Effect: Allow
               Action: ssm:GetParameter
-              Resource: !Sub "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/recourse/anthropic-api-key"
+              Resource: !Sub "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/recourse/llm-api-key"
       Environment:
         Variables:
-          ANTHROPIC_API_KEY_SSM_PARAM: "/recourse/anthropic-api-key"
+          LLM_API_KEY_SSM_PARAM: "/recourse/llm-api-key"
 
   ApiFunction:
     Type: AWS::Serverless::Function

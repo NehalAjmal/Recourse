@@ -12,27 +12,24 @@ from botocore.exceptions import BotoCoreError, ClientError
 
 from shared import audit, db, grounding
 
-_ANTHROPIC_API_KEY = None
+_LLM_API_KEY = None
 
 def _get_api_key() -> str:
-    global _ANTHROPIC_API_KEY
-    if _ANTHROPIC_API_KEY is not None:
-        return _ANTHROPIC_API_KEY
+    global _LLM_API_KEY
+    if _LLM_API_KEY is not None:
+        return _LLM_API_KEY
     
     ssm = boto3.client("ssm")
-    param_name = os.environ.get("ANTHROPIC_API_KEY_SSM_PARAM")
+    param_name = os.environ.get("LLM_API_KEY_SSM_PARAM")
     if not param_name:
-        raise ValueError("ANTHROPIC_API_KEY_SSM_PARAM env var not set")
+        raise ValueError("LLM_API_KEY_SSM_PARAM env var not set")
         
     response = ssm.get_parameter(Name=param_name, WithDecryption=True)
-    _ANTHROPIC_API_KEY = response["Parameter"]["Value"]
-    return _ANTHROPIC_API_KEY
-
-# Using Haiku for fast, cheap inference
-MODEL_ID = "claude-3-haiku-20240307"
+    _LLM_API_KEY = response["Parameter"]["Value"]
+    return _LLM_API_KEY
 
 def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
-    """One Anthropic API call + grounding check. Never invoked except by evaluate."""
+    """One Gemini API call + grounding check. Never invoked except by evaluate."""
     dispute_id = event.get("dispute_id")
     if not dispute_id:
         return {"statusCode": 400, "body": "dispute_id missing"}
@@ -58,31 +55,27 @@ def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
     try:
         api_key = _get_api_key()
         req = urllib.request.Request(
-            "https://api.anthropic.com/v1/messages",
+            f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key={api_key}",
             data=json.dumps({
-                "model": MODEL_ID,
-                "max_tokens": 512,
-                "temperature": 0.0,
-                "messages": [{"role": "user", "content": prompt}]
+                "contents": [{"role": "user", "parts": [{"text": prompt}]}],
+                "generationConfig": {
+                    "maxOutputTokens": 512
+                }
             }).encode("utf-8"),
-            headers={
-                "x-api-key": api_key,
-                "anthropic-version": "2023-06-01",
-                "content-type": "application/json",
-            },
+            headers={"content-type": "application/json"},
             method="POST",
         )
         # 20 second timeout for API
         with urllib.request.urlopen(req, timeout=20.0) as response:
             resp_body = json.loads(response.read().decode("utf-8"))
-            narrative = resp_body["content"][0]["text"]
+            narrative = resp_body["candidates"][0]["content"]["parts"][0]["text"]
             
     except urllib.error.HTTPError as e:
         err_msg = e.read().decode("utf-8") if hasattr(e, "read") else str(e)
-        _fail_and_escalate(dispute.dispute_id, f"Anthropic API error {e.code}: {err_msg}")
+        _fail_and_escalate(dispute.dispute_id, f"Gemini API error {e.code}: {err_msg}")
         return {"statusCode": 200, "body": "escalated due to generation failure"}
-    except (BotoCoreError, ClientError, KeyError, ValueError, urllib.error.URLError, json.JSONDecodeError) as e:
-        _fail_and_escalate(dispute.dispute_id, f"Anthropic generation failed: {e}")
+    except (BotoCoreError, ClientError, KeyError, ValueError, urllib.error.URLError, json.JSONDecodeError, IndexError) as e:
+        _fail_and_escalate(dispute.dispute_id, f"Gemini generation failed: {e}")
         return {"statusCode": 200, "body": "escalated due to generation failure"}
 
     is_grounded, failure_reasons = grounding.check_grounding(narrative, dispute)
