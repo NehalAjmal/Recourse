@@ -175,6 +175,9 @@ Resources:
           - OPTIONS
         AllowHeaders:
           - Content-Type
+      DefaultRouteSettings:
+        ThrottlingBurstLimit: 50
+        ThrottlingRateLimit: 100
 
   # ---------- Functions ----------
   # Each function includes a copy of shared/ synced by scripts/sync_shared.sh
