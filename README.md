@@ -38,6 +38,7 @@ Next, seed the database with synthetic dispute data:
 
 ```bash
 cd data/seed
+export API_URL="https://your-api-id.execute-api.us-east-1.amazonaws.com/prod"
 python generate_dataset.py
 ```
 
