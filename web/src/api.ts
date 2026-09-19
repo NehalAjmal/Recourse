@@ -1,8 +1,8 @@
 import type { Dispute, AuditEntry, MetricsData } from './types';
 
 // Using the relative path since Vite proxies /api to the real backend in dev.
-// In production on Amplify, we can just use the absolute URL, but API Gateway URL is typically fixed.
-const API_BASE = '/api';
+// In production on Amplify, we rely on VITE_API_URL environment variable.
+const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
 async function fetchWithTimeout(url: string, options: RequestInit = {}): Promise<Response> {
   const controller = new AbortController();
