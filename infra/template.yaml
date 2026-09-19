@@ -238,10 +238,11 @@ Resources:
             TableName: !Ref RecourseTable
         - Statement:
             - Effect: Allow
-              Action: bedrock:InvokeModel
-              Resource: 
-                - "arn:aws:bedrock:*::foundation-model/*"
-                - !Sub "arn:aws:bedrock:*:${AWS::AccountId}:inference-profile/*"
+              Action: ssm:GetParameter
+              Resource: !Sub "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/recourse/anthropic-api-key"
+      Environment:
+        Variables:
+          ANTHROPIC_API_KEY_SSM_PARAM: "/recourse/anthropic-api-key"
 
   ApiFunction:
     Type: AWS::Serverless::Function

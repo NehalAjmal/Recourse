@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import json
+import os
+import urllib.request
+import urllib.error
 from typing import Any
 
 import boto3
@@ -9,16 +12,27 @@ from botocore.exceptions import BotoCoreError, ClientError
 
 from shared import audit, db, grounding
 
-# 20 second timeout for Bedrock
-bedrock_config = Config(read_timeout=20, retries={'max_attempts': 0})
-bedrock_client = boto3.client("bedrock-runtime", config=bedrock_config)
+_ANTHROPIC_API_KEY = None
+
+def _get_api_key() -> str:
+    global _ANTHROPIC_API_KEY
+    if _ANTHROPIC_API_KEY is not None:
+        return _ANTHROPIC_API_KEY
+    
+    ssm = boto3.client("ssm")
+    param_name = os.environ.get("ANTHROPIC_API_KEY_SSM_PARAM")
+    if not param_name:
+        raise ValueError("ANTHROPIC_API_KEY_SSM_PARAM env var not set")
+        
+    response = ssm.get_parameter(Name=param_name, WithDecryption=True)
+    _ANTHROPIC_API_KEY = response["Parameter"]["Value"]
+    return _ANTHROPIC_API_KEY
 
 # Using Haiku for fast, cheap inference
-MODEL_ID = "us.anthropic.claude-3-haiku-20240307-v1:0"
-
+MODEL_ID = "claude-3-haiku-20240307"
 
 def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
-    """One Bedrock call + grounding check. Never invoked except by evaluate."""
+    """One Anthropic API call + grounding check. Never invoked except by evaluate."""
     dispute_id = event.get("dispute_id")
     if not dispute_id:
         return {"statusCode": 400, "body": "dispute_id missing"}
@@ -42,14 +56,33 @@ def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
     )
 
     try:
-        response = bedrock_client.converse(
-            modelId=MODEL_ID,
-            messages=[{"role": "user", "content": [{"text": prompt}]}],
-            inferenceConfig={"temperature": 0.0}
+        api_key = _get_api_key()
+        req = urllib.request.Request(
+            "https://api.anthropic.com/v1/messages",
+            data=json.dumps({
+                "model": MODEL_ID,
+                "max_tokens": 512,
+                "temperature": 0.0,
+                "messages": [{"role": "user", "content": prompt}]
+            }).encode("utf-8"),
+            headers={
+                "x-api-key": api_key,
+                "anthropic-version": "2023-06-01",
+                "content-type": "application/json",
+            },
+            method="POST",
         )
-        narrative = response['output']['message']['content'][0]['text']
-    except (BotoCoreError, ClientError, KeyError) as e:
-        _fail_and_escalate(dispute.dispute_id, f"Bedrock generation failed: {e}")
+        # 20 second timeout for API
+        with urllib.request.urlopen(req, timeout=20.0) as response:
+            resp_body = json.loads(response.read().decode("utf-8"))
+            narrative = resp_body["content"][0]["text"]
+            
+    except urllib.error.HTTPError as e:
+        err_msg = e.read().decode("utf-8") if hasattr(e, "read") else str(e)
+        _fail_and_escalate(dispute.dispute_id, f"Anthropic API error {e.code}: {err_msg}")
+        return {"statusCode": 200, "body": "escalated due to generation failure"}
+    except (BotoCoreError, ClientError, KeyError, ValueError, urllib.error.URLError, json.JSONDecodeError) as e:
+        _fail_and_escalate(dispute.dispute_id, f"Anthropic generation failed: {e}")
         return {"statusCode": 200, "body": "escalated due to generation failure"}
 
     is_grounded, failure_reasons = grounding.check_grounding(narrative, dispute)
