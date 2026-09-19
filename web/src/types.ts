@@ -37,6 +37,8 @@ export interface Dispute {
   mandate: {
     merchant_slug: string;
     spend_cap_paise: number;
+    valid_from: number;
+    valid_until: number;
     status: string;
   } | null;
   merchant_slug: string;

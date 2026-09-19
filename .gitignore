@@ -32,3 +32,6 @@ data/seed/holdout.json
 .agents/
 docs/
 docs/*.zip
+
+# Helper
+wipe_table.py

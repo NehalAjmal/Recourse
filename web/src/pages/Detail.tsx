@@ -124,8 +124,14 @@ export default function Detail() {
               <span className="text-gray-900 font-mono tabular-nums">₹{((dispute.mandate?.spend_cap_paise || 0) / 100).toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
+              <span className="text-gray-500">Valid Window</span>
+              <span className="text-gray-900 font-mono tabular-nums text-xs">
+                {dispute.mandate ? `${new Date(dispute.mandate.valid_from * 1000).toISOString().split('T')[0]} to ${new Date(dispute.mandate.valid_until * 1000).toISOString().split('T')[0]}` : '—'}
+              </span>
+            </div>
+            <div className="flex justify-between">
               <span className="text-gray-500">Status</span>
-              <span className="text-gray-900">{dispute.mandate?.status || 'unknown'}</span>
+              <span className="text-gray-900 capitalize">{dispute.mandate?.status || 'unknown'}</span>
             </div>
           </div>
         </div>

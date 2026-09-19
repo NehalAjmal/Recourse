@@ -84,6 +84,8 @@ def _dispute_to_dict(d: Any) -> dict[str, Any]:
         "mandate": {
             "merchant_slug": mandate.merchant_slug,
             "spend_cap_paise": mandate.spend_cap_paise,
+            "valid_from": mandate.valid_from,
+            "valid_until": mandate.valid_until,
             "status": mandate.status,
         } if mandate else None,
         "merchant_slug": d.merchant_slug,
