@@ -66,12 +66,8 @@ def _get_audit(path: str) -> dict[str, Any]:
 
 
 def _get_metrics() -> dict[str, Any]:
-    try:
-        from eval import score
-    except ImportError:
-        # Fallback if lambda packages it differently
-        import score
-        
+    from eval import score
+    
     def get_status(dispute_id: str) -> str:
         d = db.get_dispute(dispute_id)
         return d.status if d else "unknown"
