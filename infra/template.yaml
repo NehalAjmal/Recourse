@@ -233,6 +233,12 @@ Resources:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref RecourseTable
+        - Statement:
+            - Effect: Allow
+              Action: bedrock:InvokeModel
+              Resource: 
+                - "arn:aws:bedrock:*::foundation-model/*"
+                - !Sub "arn:aws:bedrock:*:${AWS::AccountId}:inference-profile/*"
 
   ApiFunction:
     Type: AWS::Serverless::Function
