@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#fafafa] text-gray-900 font-sans;
+  }
+  
+  /* Use tabular-nums globally for numbers */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  /* 1px borders, white surfaces, no shadows */
+  .card {
+    @apply bg-white border border-gray-200 rounded-md;
+  }
+}

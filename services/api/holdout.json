@@ -1,0 +1,1086 @@
+[
+  {
+    "dispute": {
+      "dispute_id": "dsp_rwjxlbwq8962e52k",
+      "mandate": {
+        "mandate_id": "mnd_u7wpgbgqfqe6rp9u",
+        "user_id": "usr_qezfmhk403uxh9a1",
+        "agent_id": "agent_claude_v1",
+        "merchant_slug": "swiggy",
+        "spend_cap_paise": 50000,
+        "valid_from": 1724368000,
+        "valid_until": 1729552000,
+        "status": "active"
+      },
+      "merchant_slug": "swiggy",
+      "amount_paise": 35024,
+      "txn_ts": 1726936574,
+      "actions": [
+        {
+          "seq": 1,
+          "action": "search",
+          "ts": 1726936454,
+          "payload": {
+            "q": "food"
+          }
+        },
+        {
+          "seq": 2,
+          "action": "select",
+          "ts": 1726936484,
+          "payload": {
+            "item": "pizza"
+          }
+        },
+        {
+          "seq": 3,
+          "action": "confirm",
+          "ts": 1726936514,
+          "payload": {}
+        },
+        {
+          "seq": 4,
+          "action": "pay",
+          "ts": 1726936574,
+          "payload": {}
+        }
+      ],
+      "fulfilment": {
+        "order_id": "ord_g7irdlk9en7dlbqz",
+        "delivered": true,
+        "delivered_ts": 1726938374,
+        "amount_paise": 35024
+      }
+    },
+    "label": "contest"
+  },
+  {
+    "dispute": {
+      "dispute_id": "dsp_4skbcbdpdxujjcse",
+      "mandate": {
+        "mandate_id": "mnd_nog85d4f2k1xerp3",
+        "user_id": "usr_lyex3sr5rup13wpp",
+        "agent_id": "agent_claude_v1",
+        "merchant_slug": "zomato",
+        "spend_cap_paise": 50000,
+        "valid_from": 1724371600,
+        "valid_until": 1729555600,
+        "status": "active"
+      },
+      "merchant_slug": "zomato",
+      "amount_paise": 27929,
+      "txn_ts": 1726881057,
+      "actions": [
+        {
+          "seq": 1,
+          "action": "pay",
+          "ts": 1726880937,
+          "payload": {}
+        },
+        {
+          "seq": 2,
+          "action": "confirm",
+          "ts": 1726881117,
+          "payload": {}
+        }
+      ],
+      "fulfilment": {
+        "order_id": "ord_bmqiyfrwskp6rfe6",
+        "delivered": true,
+        "delivered_ts": 1726882857,
+        "amount_paise": 27929
+      }
+    },
+    "label": "escalate"
+  },
+  {
+    "dispute": {
+      "dispute_id": "dsp_1fpe60qraqik3omd",
+      "mandate": {
+        "mandate_id": "mnd_4bozl01q3m73hc9j",
+        "user_id": "usr_ypaoaxqox00k3wy8",
+        "agent_id": "agent_claude_v1",
+        "merchant_slug": "swiggy",
+        "spend_cap_paise": 50000,
+        "valid_from": 1724375200,
+        "valid_until": 1729559200,
+        "status": "revoked"
+      },
+      "merchant_slug": "zepto",
+      "amount_paise": 51000,
+      "txn_ts": 1726939718,
+      "actions": [
+        {
+          "seq": 1,
+          "action": "search",
+          "ts": 1726939598,
+          "payload": {
+            "q": "food"
+          }
+        },
+        {
+          "seq": 2,
+          "action": "select",
+          "ts": 1726939628,
+          "payload": {
+            "item": "pizza"
+          }
+        },
+        {
+          "seq": 3,
+          "action": "confirm",
+          "ts": 1726939658,
+          "payload": {}
+        },
+        {
+          "seq": 4,
+          "action": "pay",
+          "ts": 1726939718,
+          "payload": {}
+        }
+      ],
+      "fulfilment": {
+        "order_id": "ord_y2deg3zgarfi44td",
+        "delivered": true,
+        "delivered_ts": 1726941518,
+        "amount_paise": 51000
+      }
+    },
+    "label": "accept"
+  },
+  {
+    "dispute": {
+      "dispute_id": "dsp_ehvdo9khba5mf36b",
+      "mandate": {
+        "mandate_id": "mnd_0vtkrrvwy3rztplc",
+        "user_id": "usr_6prr7mzakgmih6mv",
+        "agent_id": "agent_claude_v1",
+        "merchant_slug": "zepto",
+        "spend_cap_paise": 50000,
+        "valid_from": 1724378800,
+        "valid_until": 1729562800,
+        "status": "active"
+      },
+      "merchant_slug": "zepto",
+      "amount_paise": 23621,
+      "txn_ts": 1726902228,
+      "actions": [
+        {
+          "seq": 1,
+          "action": "search",
+          "ts": 1726902108,
+          "payload": {
+            "q": "food"
+          }
+        },
+        {
+          "seq": 2,
+          "action": "select",
+          "ts": 1726902138,
+          "payload": {
+            "item": "pizza"
+          }
+        },
+        {
+          "seq": 3,
+          "action": "confirm",
+          "ts": 1726902168,
+          "payload": {}
+        },
+        {
+          "seq": 4,
+          "action": "pay",
+          "ts": 1726902228,
+          "payload": {}
+        }
+      ],
+      "fulfilment": {
+        "order_id": "ord_4xekz83y0224wk0y",
+        "delivered": true,
+        "delivered_ts": 1726904028,
+        "amount_paise": 23621
+      }
+    },
+    "label": "contest"
+  },
+  {
+    "dispute": {
+      "dispute_id": "dsp_mxf1pi2ooq42nbfa",
+      "mandate": {
+        "mandate_id": "mnd_eijmmb5jfysyz7pq",
+        "user_id": "usr_4ddv283bdw56fkps",
+        "agent_id": "agent_claude_v1",
+        "merchant_slug": "zomato",
+        "spend_cap_paise": 50000,
+        "valid_from": 1724382400,
+        "valid_until": 1729566400,
+        "status": "active"
+      },
+      "merchant_slug": "zomato",
+      "amount_paise": 54714,
+      "txn_ts": 1726955862,
+      "actions": [
+        {
+          "seq": 1,
+          "action": "search",
+          "ts": 1726955742,
+          "payload": {
+            "q": "food"
+          }
+        },
+        {
+          "seq": 2,
+          "action": "select",
+          "ts": 1726955772,
+          "payload": {
+            "item": "pizza"
+          }
+        },
+        {
+          "seq": 3,
+          "action": "confirm",
+          "ts": 1726955802,
+          "payload": {}
+        },
+        {
+          "seq": 4,
+          "action": "pay",
+          "ts": 1726955862,
+          "payload": {}
+        }
+      ],
+      "fulfilment": {
+        "order_id": "ord_0dxme4po1i3msdn1",
+        "delivered": true,
+        "delivered_ts": 1726957662,
+        "amount_paise": 54714
+      }
+    },
+    "label": "escalate"
+  },
+  {
+    "dispute": {
+      "dispute_id": "dsp_2vi109dcnwmbxek0",
+      "mandate": {
+        "mandate_id": "mnd_9fc1xx6cwzxskoyt",
+        "user_id": "usr_k06akt7zqht2xz52",
+        "agent_id": "agent_claude_v1",
+        "merchant_slug": "zepto",
+        "spend_cap_paise": 50000,
+        "valid_from": 1724386000,
+        "valid_until": 1729570000,
+        "status": "expired"
+      },
+      "merchant_slug": "zepto",
+      "amount_paise": 12778,
+      "txn_ts": 1729656400,
+      "actions": [
+        {
+          "seq": 1,
+          "action": "search",
+          "ts": 1729656280,
+          "payload": {
+            "q": "food"
+          }
+        },
+        {
+          "seq": 2,
+          "action": "select",
+          "ts": 1729656310,
+          "payload": {
+            "item": "pizza"
+          }
+        },
+        {
+          "seq": 3,
+          "action": "confirm",
+          "ts": 1729656340,
+          "payload": {}
+        },
+        {
+          "seq": 4,
+          "action": "pay",
+          "ts": 1729656400,
+          "payload": {}
+        }
+      ],
+      "fulfilment": {
+        "order_id": "ord_ohkbm00e9kdts1fb",
+        "delivered": true,
+        "delivered_ts": 1729658200,
+        "amount_paise": 12778
+      }
+    },
+    "label": "escalate"
+  },
+  {
+    "dispute": {
+      "dispute_id": "dsp_7n8voeubfn9kr2fv",
+      "mandate": {
+        "mandate_id": "mnd_u6wtvmk2zyzsilu3",
+        "user_id": "usr_ndz3cc5rqnsvsojr",
+        "agent_id": "agent_claude_v1",
+        "merchant_slug": "swiggy",
+        "spend_cap_paise": 50000,
+        "valid_from": 1724389600,
+        "valid_until": 1729573600,
+        "status": "active"
+      },
+      "merchant_slug": "swiggy",
+      "amount_paise": 17736,
+      "txn_ts": 1726901770,
+      "actions": [
+        {
+          "seq": 1,
+          "action": "search",
+          "ts": 1726901650,
+          "payload": {
+            "q": "food"
+          }
+        },
+        {
+          "seq": 2,
+          "action": "select",
+          "ts": 1726901680,
+          "payload": {
+            "item": "pizza"
+          }
+        },
+        {
+          "seq": 3,
+          "action": "confirm",
+          "ts": 1726901710,
+          "payload": {}
+        },
+        {
+          "seq": 4,
+          "action": "pay",
+          "ts": 1726901770,
+          "payload": {}
+        }
+      ],
+      "fulfilment": {
+        "order_id": "ord_pp7r93fezez5ehr0",
+        "delivered": true,
+        "delivered_ts": 1726903570,
+        "amount_paise": 17736
+      }
+    },
+    "label": "contest"
+  },
+  {
+    "dispute": {
+      "dispute_id": "dsp_ga2iz5p3vob5apo4",
+      "mandate": {
+        "mandate_id": "mnd_3rem5puu62rzv1sq",
+        "user_id": "usr_qq5l2xoiot860x5z",
+        "agent_id": "agent_claude_v1",
+        "merchant_slug": "zomato",
+        "spend_cap_paise": 50000,
+        "valid_from": 1724393200,
+        "valid_until": 1729577200,
+        "status": "expired"
+      },
+      "merchant_slug": "zomato",
+      "amount_paise": 39132,
+      "txn_ts": 1729663600,
+      "actions": [
+        {
+          "seq": 1,
+          "action": "search",
+          "ts": 1729663480,
+          "payload": {
+            "q": "food"
+          }
+        },
+        {
+          "seq": 2,
+          "action": "select",
+          "ts": 1729663510,
+          "payload": {
+            "item": "pizza"
+          }
+        },
+        {
+          "seq": 3,
+          "action": "confirm",
+          "ts": 1729663540,
+          "payload": {}
+        },
+        {
+          "seq": 4,
+          "action": "pay",
+          "ts": 1729663600,
+          "payload": {}
+        }
+      ],
+      "fulfilment": {
+        "order_id": "ord_u2zueugwubugr6e7",
+        "delivered": true,
+        "delivered_ts": 1729665400,
+        "amount_paise": 39132
+      }
+    },
+    "label": "escalate"
+  },
+  {
+    "dispute": {
+      "dispute_id": "dsp_ljedgfjdlogwlaco",
+      "mandate": {
+        "mandate_id": "mnd_3rem5puu62rzv1sq",
+        "user_id": "usr_qq5l2xoiot860x5z",
+        "agent_id": "agent_claude_v1",
+        "merchant_slug": "zomato",
+        "spend_cap_paise": 50000,
+        "valid_from": 1724393200,
+        "valid_until": 1729577200,
+        "status": "expired"
+      },
+      "merchant_slug": "zomato",
+      "amount_paise": 39132,
+      "txn_ts": 1729663641,
+      "actions": [
+        {
+          "seq": 1,
+          "action": "search",
+          "ts": 1729663521,
+          "payload": {
+            "q": "food"
+          }
+        },
+        {
+          "seq": 2,
+          "action": "select",
+          "ts": 1729663551,
+          "payload": {
+            "item": "pizza"
+          }
+        },
+        {
+          "seq": 3,
+          "action": "confirm",
+          "ts": 1729663581,
+          "payload": {}
+        },
+        {
+          "seq": 4,
+          "action": "pay",
+          "ts": 1729663641,
+          "payload": {}
+        }
+      ],
+      "fulfilment": {
+        "order_id": "ord_u2zueugwubugr6e7",
+        "delivered": true,
+        "delivered_ts": 1729665441,
+        "amount_paise": 39132
+      }
+    },
+    "label": "escalate"
+  },
+  {
+    "dispute": {
+      "dispute_id": "dsp_4h4kftcdz3095hs2",
+      "mandate": {
+        "mandate_id": "mnd_j76biviss8jltcbw",
+        "user_id": "usr_6atvd1xeuq4s2ftg",
+        "agent_id": "agent_claude_v1",
+        "merchant_slug": "zepto",
+        "spend_cap_paise": 50000,
+        "valid_from": 1724400400,
+        "valid_until": 1729584400,
+        "status": "active"
+      },
+      "merchant_slug": "zomato",
+      "amount_paise": 39262,
+      "txn_ts": 1726946305,
+      "actions": [
+        {
+          "seq": 1,
+          "action": "search",
+          "ts": 1726946185,
+          "payload": {
+            "q": "food"
+          }
+        },
+        {
+          "seq": 2,
+          "action": "select",
+          "ts": 1726946215,
+          "payload": {
+            "item": "pizza"
+          }
+        },
+        {
+          "seq": 3,
+          "action": "confirm",
+          "ts": 1726946245,
+          "payload": {}
+        },
+        {
+          "seq": 4,
+          "action": "pay",
+          "ts": 1726946305,
+          "payload": {}
+        }
+      ],
+      "fulfilment": {
+        "order_id": "ord_i88tb38wxgc7jjy9",
+        "delivered": true,
+        "delivered_ts": 1726948105,
+        "amount_paise": 39262
+      }
+    },
+    "label": "escalate"
+  },
+  {
+    "dispute": {
+      "dispute_id": "dsp_8brzva9wdjsgg0yv",
+      "mandate": {
+        "mandate_id": "mnd_9zjxlh8l6e7vaagu",
+        "user_id": "usr_zroc5xt63qe8nvn4",
+        "agent_id": "agent_claude_v1",
+        "merchant_slug": "zepto",
+        "spend_cap_paise": 50000,
+        "valid_from": 1724404000,
+        "valid_until": 1729588000,
+        "status": "active"
+      },
+      "merchant_slug": "zepto",
+      "amount_paise": 30813,
+      "txn_ts": 1726958143,
+      "actions": [
+        {
+          "seq": 1,
+          "action": "search",
+          "ts": 1726958023,
+          "payload": {
+            "q": "food"
+          }
+        },
+        {
+          "seq": 2,
+          "action": "select",
+          "ts": 1726958053,
+          "payload": {
+            "item": "pizza"
+          }
+        },
+        {
+          "seq": 3,
+          "action": "confirm",
+          "ts": 1726958083,
+          "payload": {}
+        },
+        {
+          "seq": 4,
+          "action": "pay",
+          "ts": 1726958143,
+          "payload": {}
+        }
+      ],
+      "fulfilment": {
+        "order_id": "ord_39enga01yzg3w3h9",
+        "delivered": true,
+        "delivered_ts": 1726959943,
+        "amount_paise": 30813
+      }
+    },
+    "label": "contest"
+  },
+  {
+    "dispute": {
+      "dispute_id": "dsp_274ir833sicvpdqe",
+      "mandate": {
+        "mandate_id": "mnd_0e7450j4a8ywy5ap",
+        "user_id": "usr_yx4l4oesrsbzb7tl",
+        "agent_id": "agent_claude_v1",
+        "merchant_slug": "swiggy",
+        "spend_cap_paise": 50000,
+        "valid_from": 1724407600,
+        "valid_until": 1729591600,
+        "status": "revoked"
+      },
+      "merchant_slug": "zomato",
+      "amount_paise": 51000,
+      "txn_ts": 1726979191,
+      "actions": [
+        {
+          "seq": 1,
+          "action": "search",
+          "ts": 1726979071,
+          "payload": {
+            "q": "food"
+          }
+        },
+        {
+          "seq": 2,
+          "action": "select",
+          "ts": 1726979101,
+          "payload": {
+            "item": "pizza"
+          }
+        },
+        {
+          "seq": 3,
+          "action": "confirm",
+          "ts": 1726979131,
+          "payload": {}
+        },
+        {
+          "seq": 4,
+          "action": "pay",
+          "ts": 1726979191,
+          "payload": {}
+        }
+      ],
+      "fulfilment": {
+        "order_id": "ord_om539iy87hlcwbpa",
+        "delivered": true,
+        "delivered_ts": 1726980991,
+        "amount_paise": 51000
+      }
+    },
+    "label": "accept"
+  },
+  {
+    "dispute": {
+      "dispute_id": "dsp_tfqvk8sxfi3ubm9x",
+      "mandate": {
+        "mandate_id": "mnd_6y2c2bvpdcb4owo5",
+        "user_id": "usr_2wqqpwdxyasvdazv",
+        "agent_id": "agent_claude_v1",
+        "merchant_slug": "zomato",
+        "spend_cap_paise": 50000,
+        "valid_from": 1724411200,
+        "valid_until": 1729595200,
+        "status": "active"
+      },
+      "merchant_slug": "zomato",
+      "amount_paise": 22366,
+      "txn_ts": 1726958538,
+      "actions": [
+        {
+          "seq": 1,
+          "action": "search",
+          "ts": 1726958418,
+          "payload": {
+            "q": "food"
+          }
+        },
+        {
+          "seq": 2,
+          "action": "select",
+          "ts": 1726958448,
+          "payload": {
+            "item": "pizza"
+          }
+        },
+        {
+          "seq": 3,
+          "action": "confirm",
+          "ts": 1726958478,
+          "payload": {}
+        },
+        {
+          "seq": 4,
+          "action": "pay",
+          "ts": 1726958538,
+          "payload": {}
+        }
+      ],
+      "fulfilment": {
+        "order_id": "ord_46esmrwgebevsxmv",
+        "delivered": true,
+        "delivered_ts": 1726960338,
+        "amount_paise": 22366
+      }
+    },
+    "label": "contest"
+  },
+  {
+    "dispute": {
+      "dispute_id": "dsp_n2d7ki3x79955cf7",
+      "mandate": {
+        "mandate_id": "mnd_yz9vlu8wpfq2bhai",
+        "user_id": "usr_iwi08l0hg9ncbekg",
+        "agent_id": "agent_claude_v1",
+        "merchant_slug": "zomato",
+        "spend_cap_paise": 50000,
+        "valid_from": 1724414800,
+        "valid_until": 1729598800,
+        "status": "active"
+      },
+      "merchant_slug": "zomato",
+      "amount_paise": 21191,
+      "txn_ts": 1726978381,
+      "actions": [
+        {
+          "seq": 1,
+          "action": "search",
+          "ts": 1726978261,
+          "payload": {
+            "q": "food"
+          }
+        },
+        {
+          "seq": 2,
+          "action": "select",
+          "ts": 1726978291,
+          "payload": {
+            "item": "pizza"
+          }
+        },
+        {
+          "seq": 3,
+          "action": "confirm",
+          "ts": 1726978321,
+          "payload": {}
+        },
+        {
+          "seq": 4,
+          "action": "pay",
+          "ts": 1726978381,
+          "payload": {}
+        }
+      ],
+      "fulfilment": {
+        "order_id": "ord_v1bbhg5zmtga46ay",
+        "delivered": true,
+        "delivered_ts": 1726980181,
+        "amount_paise": 21191
+      }
+    },
+    "label": "contest"
+  },
+  {
+    "dispute": {
+      "dispute_id": "dsp_1ksibsmqpnrjapjc",
+      "mandate": {
+        "mandate_id": "mnd_ylpw71v4kfiwkesv",
+        "user_id": "usr_r022wgn51nsgzsr8",
+        "agent_id": "agent_claude_v1",
+        "merchant_slug": "zomato",
+        "spend_cap_paise": 50000,
+        "valid_from": 1724418400,
+        "valid_until": 1729602400,
+        "status": "active"
+      },
+      "merchant_slug": "zomato",
+      "amount_paise": 27450,
+      "txn_ts": 1726957230,
+      "actions": [
+        {
+          "seq": 1,
+          "action": "search",
+          "ts": 1726957110,
+          "payload": {
+            "q": "food"
+          }
+        },
+        {
+          "seq": 2,
+          "action": "select",
+          "ts": 1726957140,
+          "payload": {
+            "item": "pizza"
+          }
+        },
+        {
+          "seq": 3,
+          "action": "confirm",
+          "ts": 1726957170,
+          "payload": {}
+        },
+        {
+          "seq": 4,
+          "action": "pay",
+          "ts": 1726957230,
+          "payload": {}
+        }
+      ],
+      "fulfilment": {
+        "order_id": "ord_ruw2xh6qihpnf4jd",
+        "delivered": true,
+        "delivered_ts": 1726959030,
+        "amount_paise": 27450
+      }
+    },
+    "label": "contest"
+  },
+  {
+    "dispute": {
+      "dispute_id": "dsp_unue7a34mpyo2tla",
+      "mandate": {
+        "mandate_id": "mnd_sx27dcbhhlk3yjz9",
+        "user_id": "usr_9106ak32oouxqs1f",
+        "agent_id": "agent_claude_v1",
+        "merchant_slug": "zomato",
+        "spend_cap_paise": 50000,
+        "valid_from": 1724422000,
+        "valid_until": 1729606000,
+        "status": "active"
+      },
+      "merchant_slug": "zomato",
+      "amount_paise": 37610,
+      "txn_ts": 1726944633,
+      "actions": [
+        {
+          "seq": 1,
+          "action": "search",
+          "ts": 1726944513,
+          "payload": {
+            "q": "food"
+          }
+        },
+        {
+          "seq": 2,
+          "action": "select",
+          "ts": 1726944543,
+          "payload": {
+            "item": "pizza"
+          }
+        },
+        {
+          "seq": 3,
+          "action": "confirm",
+          "ts": 1726944573,
+          "payload": {}
+        },
+        {
+          "seq": 4,
+          "action": "pay",
+          "ts": 1726944633,
+          "payload": {}
+        }
+      ],
+      "fulfilment": {
+        "order_id": "ord_oi0rs210q2lg1zhq",
+        "delivered": true,
+        "delivered_ts": 1726946433,
+        "amount_paise": 37610
+      }
+    },
+    "label": "contest"
+  },
+  {
+    "dispute": {
+      "dispute_id": "dsp_qh9q3vilurqbdx7m",
+      "mandate": {
+        "mandate_id": "mnd_u26uon8cnrl8xkgy",
+        "user_id": "usr_g3vah6nhksqnal6o",
+        "agent_id": "agent_claude_v1",
+        "merchant_slug": "swiggy",
+        "spend_cap_paise": 50000,
+        "valid_from": 1724425600,
+        "valid_until": 1729609600,
+        "status": "active"
+      },
+      "merchant_slug": "zomato",
+      "amount_paise": 15036,
+      "txn_ts": 1726970714,
+      "actions": [
+        {
+          "seq": 1,
+          "action": "search",
+          "ts": 1726970594,
+          "payload": {
+            "q": "food"
+          }
+        },
+        {
+          "seq": 2,
+          "action": "select",
+          "ts": 1726970624,
+          "payload": {
+            "item": "pizza"
+          }
+        },
+        {
+          "seq": 3,
+          "action": "confirm",
+          "ts": 1726970654,
+          "payload": {}
+        },
+        {
+          "seq": 4,
+          "action": "pay",
+          "ts": 1726970714,
+          "payload": {}
+        }
+      ],
+      "fulfilment": {
+        "order_id": "ord_9ep0o6h5l3xfulhz",
+        "delivered": true,
+        "delivered_ts": 1726972514,
+        "amount_paise": 15036
+      }
+    },
+    "label": "escalate"
+  },
+  {
+    "dispute": {
+      "dispute_id": "dsp_zpqkf4vge0gyajpg",
+      "mandate": {
+        "mandate_id": "mnd_34ogwpnxzdzb5f5t",
+        "user_id": "usr_xc066o1en1s2ofhb",
+        "agent_id": "agent_claude_v1",
+        "merchant_slug": "zepto",
+        "spend_cap_paise": 50000,
+        "valid_from": 1724429200,
+        "valid_until": 1729613200,
+        "status": "active"
+      },
+      "merchant_slug": "zepto",
+      "amount_paise": 22815,
+      "txn_ts": 1726937250,
+      "actions": [
+        {
+          "seq": 1,
+          "action": "search",
+          "ts": 1726937130,
+          "payload": {
+            "q": "food"
+          }
+        },
+        {
+          "seq": 2,
+          "action": "select",
+          "ts": 1726937160,
+          "payload": {
+            "item": "pizza"
+          }
+        },
+        {
+          "seq": 3,
+          "action": "confirm",
+          "ts": 1726937190,
+          "payload": {}
+        },
+        {
+          "seq": 4,
+          "action": "pay",
+          "ts": 1726937250,
+          "payload": {}
+        }
+      ],
+      "fulfilment": {
+        "order_id": "ord_awyqmogbjzeyqqcx",
+        "delivered": true,
+        "delivered_ts": 1726939050,
+        "amount_paise": 22815
+      }
+    },
+    "label": "contest"
+  },
+  {
+    "dispute": {
+      "dispute_id": "dsp_chkv9dt94g8v9zy9",
+      "mandate": {
+        "mandate_id": "mnd_hz43xz6olba117ni",
+        "user_id": "usr_dp9mgyh523ggodlu",
+        "agent_id": "agent_claude_v1",
+        "merchant_slug": "zepto",
+        "spend_cap_paise": 50000,
+        "valid_from": 1724432800,
+        "valid_until": 1729616800,
+        "status": "active"
+      },
+      "merchant_slug": "zepto",
+      "amount_paise": 39251,
+      "txn_ts": 1726951431,
+      "actions": [
+        {
+          "seq": 1,
+          "action": "search",
+          "ts": 1726951311,
+          "payload": {
+            "q": "food"
+          }
+        },
+        {
+          "seq": 2,
+          "action": "select",
+          "ts": 1726951341,
+          "payload": {
+            "item": "pizza"
+          }
+        },
+        {
+          "seq": 3,
+          "action": "confirm",
+          "ts": 1726951371,
+          "payload": {}
+        },
+        {
+          "seq": 4,
+          "action": "pay",
+          "ts": 1726951431,
+          "payload": {}
+        }
+      ],
+      "fulfilment": {
+        "order_id": "ord_ght7ehmgoloqc3xn",
+        "delivered": true,
+        "delivered_ts": 1726953231,
+        "amount_paise": 39251
+      }
+    },
+    "label": "contest"
+  },
+  {
+    "dispute": {
+      "dispute_id": "dsp_nlpa5cgwfhdv37ic",
+      "mandate": {
+        "mandate_id": "mnd_5l4rmvvnxiv9iw6l",
+        "user_id": "usr_01wcnkfhb7v80lkx",
+        "agent_id": "agent_claude_v1",
+        "merchant_slug": "zepto",
+        "spend_cap_paise": 50000,
+        "valid_from": 1724436400,
+        "valid_until": 1729620400,
+        "status": "revoked"
+      },
+      "merchant_slug": "zepto",
+      "amount_paise": 20880,
+      "txn_ts": 1727001820,
+      "actions": [
+        {
+          "seq": 1,
+          "action": "search",
+          "ts": 1727001700,
+          "payload": {
+            "q": "food"
+          }
+        },
+        {
+          "seq": 2,
+          "action": "select",
+          "ts": 1727001730,
+          "payload": {
+            "item": "pizza"
+          }
+        },
+        {
+          "seq": 3,
+          "action": "confirm",
+          "ts": 1727001760,
+          "payload": {}
+        },
+        {
+          "seq": 4,
+          "action": "pay",
+          "ts": 1727001820,
+          "payload": {}
+        }
+      ],
+      "fulfilment": {
+        "order_id": "ord_1s9xka4lit6xiyzv",
+        "delivered": true,
+        "delivered_ts": 1727003620,
+        "amount_paise": 20880
+      }
+    },
+    "label": "escalate"
+  }
+]

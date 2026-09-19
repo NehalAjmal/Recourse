@@ -66,7 +66,18 @@ def _get_audit(path: str) -> dict[str, Any]:
 
 
 def _get_metrics() -> dict[str, Any]:
-    return _response(501, {"error": "metrics not implemented yet"})
+    try:
+        from eval import score
+    except ImportError:
+        # Fallback if lambda packages it differently
+        import score
+        
+    def get_status(dispute_id: str) -> str:
+        d = db.get_dispute(dispute_id)
+        return d.status if d else "unknown"
+        
+    metrics = score.compute_metrics(get_status)
+    return _response(200, metrics)
 
 
 def _dispute_to_dict(d: Any) -> dict[str, Any]:
