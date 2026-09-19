@@ -22,7 +22,7 @@ First, generate the deterministic seed data locally and sync shared dependencies
 
 ```bash
 cd data/seed
-python generate_dataset.py
+python3 generate_dataset.py
 cd ../..
 ./scripts/sync_shared.sh
 ```
@@ -42,7 +42,7 @@ Now, seed the deployed API with the synthetic data:
 ```bash
 cd ../data/seed
 export API_URL="https://your-api-id.execute-api.us-east-1.amazonaws.com/prod"
-python generate_dataset.py
+python3 generate_dataset.py
 ```
 
 Finally, run the frontend dashboard locally:
