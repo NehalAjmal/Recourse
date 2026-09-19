@@ -30,4 +30,4 @@ data/seed/holdout.json
 
 # Documentation
 .agents/
-docs/
+docs/*.zip
