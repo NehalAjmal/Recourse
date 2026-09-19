@@ -117,15 +117,15 @@ export default function Detail() {
           <div className="space-y-1 text-sm">
             <div className="flex justify-between">
               <span className="text-gray-500">Merchant</span>
-              <span className="text-gray-900 font-medium">{dispute.merchant_slug}</span>
+              <span className="text-gray-900 font-medium">{dispute.mandate?.merchant_slug || dispute.merchant_slug}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-500">Spend Cap</span>
-              <span className="text-gray-900 font-mono tabular-nums">₹{dispute.amount_paise / 100}</span>
+              <span className="text-gray-900 font-mono tabular-nums">₹{((dispute.mandate?.spend_cap_paise || 0) / 100).toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-500">Status</span>
-              <span className="text-gray-900">{dispute.status}</span>
+              <span className="text-gray-900">{dispute.mandate?.status || 'unknown'}</span>
             </div>
           </div>
         </div>

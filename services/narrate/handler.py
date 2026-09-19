@@ -55,27 +55,30 @@ def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
     try:
         api_key = _get_api_key()
         req = urllib.request.Request(
-            f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key={api_key}",
+            "https://api.groq.com/openai/v1/chat/completions",
             data=json.dumps({
-                "contents": [{"role": "user", "parts": [{"text": prompt}]}],
-                "generationConfig": {
-                    "maxOutputTokens": 512
-                }
+                "model": "openai/gpt-oss-20b",
+                "messages": [{"role": "user", "content": prompt}],
+                "temperature": 0
             }).encode("utf-8"),
-            headers={"content-type": "application/json"},
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {api_key}",
+                "User-Agent": "recourse-hackathon/1.0"
+            },
             method="POST",
         )
         # 20 second timeout for API
         with urllib.request.urlopen(req, timeout=20.0) as response:
             resp_body = json.loads(response.read().decode("utf-8"))
-            narrative = resp_body["candidates"][0]["content"]["parts"][0]["text"]
+            narrative = resp_body["choices"][0]["message"]["content"]
             
     except urllib.error.HTTPError as e:
         err_msg = e.read().decode("utf-8") if hasattr(e, "read") else str(e)
-        _fail_and_escalate(dispute.dispute_id, f"Gemini API error {e.code}: {err_msg}")
+        _fail_and_escalate(dispute.dispute_id, f"Groq API error {e.code}: {err_msg}")
         return {"statusCode": 200, "body": "escalated due to generation failure"}
     except (BotoCoreError, ClientError, KeyError, ValueError, urllib.error.URLError, json.JSONDecodeError, IndexError) as e:
-        _fail_and_escalate(dispute.dispute_id, f"Gemini generation failed: {e}")
+        _fail_and_escalate(dispute.dispute_id, f"Groq generation failed: {e}")
         return {"statusCode": 200, "body": "escalated due to generation failure"}
 
     is_grounded, failure_reasons = grounding.check_grounding(narrative, dispute)

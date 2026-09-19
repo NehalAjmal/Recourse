@@ -184,9 +184,9 @@ def main():
     # Oh! Duplicate *disputes*, not duplicate orders! 
     # To trigger a duplicate, we need to POST two disputes with the same mandate and amount within 300s.
     
-    print(f"Posting 100 disputes to {api_url} ...")
+    print(f"Posting {len(dataset)} disputes to {api_url} ...")
     success = 0
-    for i, (d, l) in enumerate(post_set):
+    for i, (d, l) in enumerate(dataset):
         req = urllib.request.Request(
             api_url,
             data=json.dumps(d).encode("utf-8"),
@@ -199,8 +199,9 @@ def main():
                     success += 1
         except Exception as e:
             print(f"Failed to post dispute {i}: {e}")
+        time.sleep(3)
             
-    print(f"Successfully posted {success}/100 disputes.")
+    print(f"Successfully posted {success}/{len(dataset)} disputes.")
 
 if __name__ == "__main__":
     main()

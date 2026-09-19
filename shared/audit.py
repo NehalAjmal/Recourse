@@ -31,9 +31,11 @@ def append_audit_entry(
     to_status: str,
     detail: str = "",
 ) -> AuditEntry:
-    ts = int(time.time())
+    import datetime
+    now = datetime.datetime.now(datetime.timezone.utc)
+    ts = int(now.timestamp())
     seq = _next_seq()
-    iso_ts = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(ts))
+    iso_ts = now.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
     sk = f"AUDIT#{iso_ts}#{seq:04d}"
 
     entry = AuditEntry(

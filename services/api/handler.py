@@ -77,9 +77,15 @@ def _get_metrics() -> dict[str, Any]:
 
 
 def _dispute_to_dict(d: Any) -> dict[str, Any]:
+    mandate = db.get_mandate(d.mandate_id)
     return {
         "dispute_id": d.dispute_id,
         "mandate_id": d.mandate_id,
+        "mandate": {
+            "merchant_slug": mandate.merchant_slug,
+            "spend_cap_paise": mandate.spend_cap_paise,
+            "status": mandate.status,
+        } if mandate else None,
         "merchant_slug": d.merchant_slug,
         "amount_paise": d.amount_paise,
         "txn_ts": d.txn_ts,

@@ -34,6 +34,11 @@ export interface CheckResult {
 export interface Dispute {
   dispute_id: string;
   mandate_id: string;
+  mandate: {
+    merchant_slug: string;
+    spend_cap_paise: number;
+    status: string;
+  } | null;
   merchant_slug: string;
   amount_paise: number;
   txn_ts: number;
