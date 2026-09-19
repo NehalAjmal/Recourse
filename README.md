@@ -18,10 +18,18 @@ Only after a deterministic decision is made does the system call a generative mo
 
 To run the backend infrastructure locally, you need the AWS CLI, AWS SAM CLI, Python 3.12, and Node 20. You must have an AWS account configured with AdministratorAccess credentials in your local environment.
 
-First, sync the shared dependencies, then build and deploy the AWS SAM stack:
+First, generate the deterministic seed data locally and sync shared dependencies:
 
 ```bash
+cd data/seed
+python generate_dataset.py
+cd ../..
 ./scripts/sync_shared.sh
+```
+
+Next, build and deploy the AWS SAM stack:
+
+```bash
 cd infra
 sam build
 sam deploy --guided
@@ -29,10 +37,10 @@ sam deploy --guided
 
 This provisions the DynamoDB tables, the API Gateway endpoints, the Lambda functions, and the Amazon Verified Permissions policy store. Take note of the `ApiUrl` output from the deployment.
 
-Next, seed the database with synthetic dispute data:
+Now, seed the deployed API with the synthetic data:
 
 ```bash
-cd data/seed
+cd ../data/seed
 export API_URL="https://your-api-id.execute-api.us-east-1.amazonaws.com/prod"
 python generate_dataset.py
 ```
@@ -40,7 +48,7 @@ python generate_dataset.py
 Finally, run the frontend dashboard locally:
 
 ```bash
-cd web
+cd ../../web
 npm install
 VITE_API_URL="https://your-api-id.execute-api.us-east-1.amazonaws.com/prod" npm run dev
 ```

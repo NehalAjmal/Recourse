@@ -127,11 +127,7 @@ def generate_dispute(category: str, previous_dispute: dict = None, i: int = 0) -
 
 def main():
     api_url = os.environ.get("API_URL")
-    if not api_url:
-        print("API_URL environment variable required.")
-        return
-        
-    if not api_url.endswith("/disputes"):
+    if api_url and not api_url.endswith("/disputes"):
         api_url = api_url.rstrip("/") + "/disputes"
 
     # 120 disputes total
@@ -182,8 +178,10 @@ def main():
     # Actually, the duplicate check is based on DynamoDB. We'll just POST the dispute.
     # Wait, check 6 requires "no other dispute under the same mandate with the same amount within +-300s".
     # Oh! Duplicate *disputes*, not duplicate orders! 
-    # To trigger a duplicate, we need to POST two disputes with the same mandate and amount within 300s.
-    
+    if not api_url:
+        print("API_URL not set. Skipping POST step.")
+        return
+        
     print(f"Posting {len(dataset)} disputes to {api_url} ...")
     success = 0
     for i, (d, l) in enumerate(dataset):
