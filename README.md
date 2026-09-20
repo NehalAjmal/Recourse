@@ -1,5 +1,23 @@
 <div align="center">
   <h1>🛡️ Recourse</h1>
+  <p>
+    <img src="https://img.shields.io/badge/Built%20on-AWS-232F3E?logo=amazonaws&logoColor=white" alt="Built on AWS" />
+    <img src="https://img.shields.io/badge/Bharat%20Builds%20Tour-First%20Commit-1a1a2e" alt="Bharat Builds Tour" /><br>
+    <img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white" alt="Python" />
+    <img src="https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB" alt="React" />
+    <img src="https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white" alt="TypeScript" />
+    <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
+    <img src="https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white" alt="Vite" />
+    <img src="https://img.shields.io/badge/Node.js-339933?logo=nodedotjs&logoColor=white" alt="Node.js" /><br>
+    <img src="https://img.shields.io/badge/AWS_Lambda-FF9900?logo=aws-lambda&logoColor=white" alt="AWS Lambda" />
+    <img src="https://img.shields.io/badge/Amazon_DynamoDB-4053D6?logo=amazon-dynamodb&logoColor=white" alt="Amazon DynamoDB" />
+    <img src="https://img.shields.io/badge/Amazon_API_Gateway-FF4F8B?logo=amazon-api-gateway&logoColor=white" alt="Amazon API Gateway" />
+    <img src="https://img.shields.io/badge/Amazon_Verified_Permissions-CC2222?logo=amazonaws&logoColor=white" alt="Amazon Verified Permissions" /><br>
+    <img src="https://img.shields.io/badge/AWS_Amplify-E7157B?logo=aws-amplify&logoColor=white" alt="AWS Amplify" />
+    <img src="https://img.shields.io/badge/AWS_SAM-232F3E?logo=amazonaws&logoColor=white" alt="AWS SAM" />
+    <img src="https://img.shields.io/badge/Amazon_Bedrock-01A88D?logo=amazonaws&logoColor=white" alt="Amazon Bedrock" />
+    <img src="https://img.shields.io/badge/Groq-F37021?logo=groq&logoColor=white" alt="Groq" />
+  </p>
   <p><b>Evidence for disputes an AI agent made on your behalf.</b></p>
 </div>
 
@@ -64,6 +82,16 @@ graph TD
 
 - **Backend:** Python 3.12 on AWS Lambda, Amazon Verified Permissions for policy evaluation, DynamoDB for storage, API Gateway as the HTTP front door, all declared in one AWS SAM template. 
 - **Frontend:** React, TypeScript, Tailwind, deployed on AWS Amplify Hosting.
+
+### ☁️ AWS Services Used
+
+- **AWS Lambda** — all four backend services (ingest, evaluate, narrate, api)
+- **Amazon Verified Permissions** — Cedar policy evaluation for 3 of the 6 checks (spending cap, merchant match, mandate validity window), declared as `AWS::VerifiedPermissions::PolicyStore` and `::Policy` resources directly in the SAM template — no separate console step
+- **Amazon DynamoDB** — single-table store for mandates, disputes, and the append-only audit trail
+- **Amazon API Gateway** — the HTTP front door for all endpoints
+- **AWS Amplify Hosting** — deploys the React dashboard, `master.d285ptzirlim8s.amplifyapp.com`
+- **AWS SAM** — declares and deploys the entire stack above from one `template.yaml`
+- **Amazon Bedrock** — the narration step's original design target; blocked mid-build by an account-eligibility hold (see Limitations below), the code path is provider-agnostic and swaps back with a config change once access clears
 
 ---
 
