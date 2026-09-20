@@ -113,7 +113,7 @@ python3 generate_dataset.py
 ## 🌐 Live Demo
 
 - **App:** [https://master.d285ptzirlim8s.amplifyapp.com](https://master.d285ptzirlim8s.amplifyapp.com)
-- **API:** [https://63v98k3fpe.execute-api.us-east-1.amazonaws.com/prod](https://63v98k3fpe.execute-api.us-east-1.amazonaws.com/prod)
+- **API:** [https://63v98k3fpe.execute-api.us-east-1.amazonaws.com/prod/disputes](https://63v98k3fpe.execute-api.us-east-1.amazonaws.com/prod/disputes)
 
 ---
 
