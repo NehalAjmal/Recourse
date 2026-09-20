@@ -1,56 +1,134 @@
-# Recourse
+<div align="center">
+  <h1>🛡️ Recourse</h1>
+  <p><b>Evidence for disputes an AI agent made on your behalf.</b></p>
+</div>
 
-Recourse gives a merchant's dispute team the evidence they would normally lose when an AI agent makes a purchase. When a transaction is made by an agent via a pre-authorized spending cap (like UPI Reserve Pay), traditional dispute evidence does not exist. There is no device fingerprint, no click trail, and no browser session because no human clicked anything. Recourse replaces that missing evidence with a verifiable chain of facts: what the user authorized, what the agent executed, and whether the order was fulfilled.
+---
 
-Existing dispute tooling assumes human operators. Attempting to solve this problem by asking a large language model to read logs and decide the outcome introduces a new risk. Models can hallucinate justifications or rubber-stamp agent behavior based on probabilistic generation, making their decisions legally and operationally indefensible.
+## 🔍 The Problem
 
-## Limitations
+In February 2026, Razorpay and NPCI launched an agentic payments pilot on Claude, letting people order from Zomato, Swiggy, and Zepto through conversation, using **UPI Reserve Pay** — a user pre-authorises a spending cap for a merchant, then an agent transacts within it.
 
-This is a prototype built for demonstration purposes. It contains several deliberate limitations. The application uses deterministic synthetic data generated via a seed, rather than a live database of real transactions. The dashboard is entirely read-only. There is no functionality to manually override a decision, approve an escalation, or edit a narrative. There is no user authentication, session management, or role-based access control implemented on the frontend. The system does not implement a full component library or dark mode, favoring a minimal console interface. Finally, only one foundation model attempt is made per dispute to control costs and prevent silent retry loops from burying hallucination failures.
+> [!WARNING]  
+> When one of those transactions is disputed, the evidence a merchant normally relies on doesn't exist: **no device fingerprint, no click trail, no browser session**, because no human clicked anything. Nothing off-the-shelf handles that yet.
 
-## How it works
+---
 
-Recourse separates the decision path from the narrative generation. The system relies on Amazon Verified Permissions (using the Cedar policy language) and deterministic Python checks to evaluate the facts of a dispute. The evaluation pipeline checks the mandate validity, the spend cap limit, and the fulfillment status. If the facts pass all checks, the dispute is marked as contested. If it fails slightly, it escalates to a human analyst. If it fails severely, the dispute is accepted and resolved.
+## 🚫 What This Is Not
 
-Only after a deterministic decision is made does the system call a generative model (Groq gpt-oss-20b) to write a human-readable narrative. This narrative is then subjected to a strict grounding check. If the generated text invents numbers, references facts that do not exist in the evidence, or violates length constraints, the narrative is discarded and the dispute escalates. A model never makes a decision, and it is never trusted to verify its own work.
+Recourse doesn't integrate with real UPI, Razorpay, or NPCI — every dispute is synthetic, shaped like the real thing. 
 
-## How to run it
+- **No login:** It's a demo console, not a product.
+- **No simulation:** It doesn't build or simulate the shopping agent itself; it only consumes an agent's action log after the fact.
 
-To run the backend infrastructure locally, you need the AWS CLI, AWS SAM CLI, Python 3.12, and Node 20. You must have an AWS account configured with AdministratorAccess credentials in your local environment.
+---
 
-First, generate the deterministic seed data locally and sync shared dependencies:
+## 🧠 How It Decides
+
+Every dispute goes through **six deterministic checks**. 
+
+1. **Cedar Policies** (Evaluated by Amazon Verified Permissions):
+   - Spending cap
+   - Merchant match
+   - Mandate validity window
+2. **Python Checks**:
+   - Order fulfilment
+   - Timeline consistency
+   - Duplicate-order detection
+
+> [!IMPORTANT]  
+> **The model never decides anything. It writes prose.**  
+> Deterministic code decides whether that prose is trustworthy enough to show a human.
+
+If all six pass, a language model writes a short evidence narrative. But the narrative is checked against the same structured facts before it's ever shown to anyone. If it mentions something structurally impossible for an agent-initiated transaction (a device fingerprint, an IP address, a click), or cites a number that appears nowhere in the real data, it's rejected and the dispute escalates to a human instead. 
+
+**One generation attempt, no retries** — a failed check means escalation, never a second try hoping for a better answer.
+
+---
+
+## 🏗️ Architecture
+
+```mermaid
+graph TD
+    A[POST /disputes] --> B(Ingest)
+    B --> C{Evaluate}
+    C -->|Cedar via AVP + Python checks| D
+    D -->|Only if all 6 pass| E(Narrate: LLM call + Grounding check)
+    E --> F[(DynamoDB)]
+    C -.-> F
+    
+    subgraph Note
+    N[Append-only audit trail at every transition]
+    end
+```
+
+- **Backend:** Python 3.12 on AWS Lambda, Amazon Verified Permissions for policy evaluation, DynamoDB for storage, API Gateway as the HTTP front door, all declared in one AWS SAM template. 
+- **Frontend:** React, TypeScript, Tailwind, deployed on AWS Amplify Hosting.
+
+---
+
+## 🚀 Running It Locally
+
+### Prerequisites
+- Python 3.12, Node 20
+- AWS CLI, AWS SAM CLI
+- AWS account configured with `AdministratorAccess` credentials
+
+### 1. Setup & Backend Deployment
+```bash
+git clone <repo-url> && cd recourse
+
+# Setup Python virtual environment
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt --break-system-packages
+
+# Run backend tests
+pytest
+
+# Build and deploy the AWS SAM stack
+cd infra && sam build && sam deploy --guided 
+```
+> Take note of the `ApiUrl` output from the deployment.
+
+### 2. Run the Frontend
+```bash
+cd ../web
+npm install
+
+# Start the dev server
+VITE_API_URL=<api-url-from-above> npm run dev
+```
+
+### 3. Seed the Dataset
+The seed dataset (120 synthetic disputes, 100 live + 20 held out with labels) is generated by `data/seed/generate_dataset.py` and posted to the deployed API.
 
 ```bash
 cd data/seed
-python3 generate_dataset.py
-cd ../..
-./scripts/sync_shared.sh
-```
-
-Next, build and deploy the AWS SAM stack:
-
-```bash
-cd infra
-sam build
-sam deploy --guided
-```
-
-This provisions the DynamoDB tables, the API Gateway endpoints, the Lambda functions, and the Amazon Verified Permissions policy store. Take note of the `ApiUrl` output from the deployment.
-
-Now, seed the deployed API with the synthetic data:
-
-```bash
-cd ../data/seed
-export API_URL="https://your-api-id.execute-api.us-east-1.amazonaws.com/prod"
+export API_URL="<api-url-from-above>"
 python3 generate_dataset.py
 ```
 
-Finally, run the frontend dashboard locally:
+---
 
-```bash
-cd ../../web
-npm install
-VITE_API_URL="https://your-api-id.execute-api.us-east-1.amazonaws.com/prod" npm run dev
-```
+## 🌐 Live Demo
 
-The dashboard will be available at `http://localhost:5173`.
+- **App:** [https://master.d285ptzirlim8s.amplifyapp.com](https://master.d285ptzirlim8s.amplifyapp.com)
+- **API:** [https://63v98k3fpe.execute-api.us-east-1.amazonaws.com/prod](https://63v98k3fpe.execute-api.us-east-1.amazonaws.com/prod)
+
+---
+
+## 📝 Limitations, honestly
+
+> [!NOTE]  
+> - **All data is synthetic.** This has never touched a real payment.
+> - **No authentication anywhere** — a deliberate scope decision for a four-day demo, not an oversight.
+> - **Bedrock access** was blocked for the account this was built on by an AWS account-verification hold that didn't clear in time. The `narrate` service calls a free-tier LLM API directly instead — the decision logic and grounding check are provider-agnostic and don't change based on which model writes the prose.
+> - A small number of early audit-log entries had their display order reconstructed after a same-second timestamp collision, caused by rapid manual testing during development. Entries written from that point forward use microsecond-precision sort keys and don't have this issue.
+> - Precision and recall on the held-out set are both **1.0**. This is a deterministic rule engine evaluated against synthetic cases with unambiguous ground truth, not a trained model generalising to unseen data — a correctly implemented deterministic system is expected to score close to perfect on clean-cut cases. It isn't a claim that the system is infallible on messier real data.
+
+---
+
+## 🏆 Built For
+
+**Bharat Builds Tour — First Commit**  
+WeMakeDevs × AWS Builder Center, 17–20 September 2026.
